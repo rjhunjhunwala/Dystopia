@@ -11,5 +11,3 @@ Feature Pipeline
 <li>Missions given by an npc</li>
 </ol>
 <hr />
-Percentage completion
-15 % |=-........|
