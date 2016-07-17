@@ -1,5 +1,6 @@
 # Dystopia
 This is an open world GTA styled game with retro isometric graphics. This is part of a collaboraion with nvillano
+<hr />
 Feature Pipeline
 <ol>
 <li><s>Basic graphics and generation engine</s></li>
@@ -9,3 +10,6 @@ Feature Pipeline
 <li>Title how to play and high score screen</li>
 <li>Missions given by an npc</li>
 </ol>
+<hr />
+Percentage completion
+15 % |=-........|
