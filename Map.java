@@ -81,7 +81,7 @@ public class Map {
 					if (x == Player.x && y == Player.y) {
 						i = 10;
 						j = 10;
-						g.drawImage(playerS, (i + j) * 15, ((j - i) * 15) + 350 - playerS.getHeight(), this);
+						g.drawImage(playerS, (i + j) * 15+3, ((j - i) * 15) + 347 - playerS.getHeight(), this);
 					}
 				}
 			}
