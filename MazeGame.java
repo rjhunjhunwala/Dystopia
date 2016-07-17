@@ -35,35 +35,56 @@ public class MazeGame {
 		public Dimension getPreferredSize() {
 			return new Dimension(620, 640);
 		}
-public static BufferedImage spaceS;
-public static BufferedImage wallS;
-public static BufferedImage playerS;
-static{
-try{
-			spaceS = ImageIO.read(new File("Empty.png"));
-			wallS=ImageIO.read(new File("Wall.png"));
-playerS=ImageIO.read(new File("Player.png"));
-}catch(Exception ex){}
-}
-@Override
+		public static BufferedImage spaceS;
+		public static BufferedImage wallS;
+		public static BufferedImage playerS;
+		public static BufferedImage grassS;
+
+		static {
+			try {
+				grassS = ImageIO.read(new File("Grass.png"));
+				spaceS = ImageIO.read(new File("Empty.png"));
+				wallS = ImageIO.read(new File("Wall.png"));
+				playerS = ImageIO.read(new File("Player.png"));
+			} catch (Exception ex) {
+			}
+		}
+
+		@Override
 		public void paintComponent(Graphics g) {
-	g.setColor(Color.green);
-			g.fillRect(0,0,650,650);
+			g.setColor(Color.green);
+			g.fillRect(0, 0, 650, 650);
 			for (int y = Player.y - 10; y <= Player.y + 10; y++) {
-				for (int x = Player.x + 10; x >= Player.x - 10; x--){
-					BufferedImage b;
-          b = (!inMapBounds(x,y)||(map[x][y]==MazeGame.space) ? spaceS : wallS);
-	if(x == Player.x&&y==Player.y){
-		b= playerS;
-	}
-					int i = x-Player.x+10;
-	int j = y-Player.y+10;
-					g.drawImage(b, (i+j)*15,((j-i)*15)+350-b.getHeight(), this);
+				for (int x = Player.x + 10; x >= Player.x - 10; x--) {
+					BufferedImage b = grassS;
+					if (inMapBounds(x, y)) {
+						switch (map[x][y]) {
+							case grass:
+								b = grassS;
+								break;
+							case space:
+								b = spaceS;
+								break;
+							case wall:
+								b = wallS;
+								break;
+						}
+					}
+
+					int i = x - Player.x + 10;
+					int j = y - Player.y + 10;
+					g.drawImage(b, (i + j) * 15, ((j - i) * 15) + 350 - b.getHeight(), this);
+					if (x == Player.x && y == Player.y) {
+						i = 10;
+						j = 10;
+						g.drawImage(playerS, (i + j) * 15, ((j - i) * 15) + 350 - playerS.getHeight(), this);
+					}
 				}
 			}
+
 			g.setColor(Color.blue);
 			//g.fillOval(300,300,30,30);
-	//		g.drawImage(space, 315, 315, this);
+			//		g.drawImage(space, 315, 315, this);
 		}
 	}
 
@@ -88,7 +109,7 @@ playerS=ImageIO.read(new File("Player.png"));
 					tX++;
 					break;
 			}
-			if (inMapBounds(tX, tY) && map[tX][tY]!=wall) {
+			if (inMapBounds(tX, tY) && map[tX][tY] != wall) {
 				x = tX;
 				y = tY;
 			}
@@ -135,7 +156,7 @@ playerS=ImageIO.read(new File("Player.png"));
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		makeMaze();
+		makeCity();
 		GameFrame frame = new GameFrame();
 		while (true) {
 			frame.repaint();
@@ -152,20 +173,34 @@ playerS=ImageIO.read(new File("Player.png"));
 		}
 	}
 	public static Stack<Coord> nodes = new Stack<>();
-public static int[][] map;
-public static final int mult=3;
-public static final int space = 'S';
-public static final int wall='W';
-public static void makeMaze() {
-		maze = new boolean[65][65];
+	public static int[][] map;
+	public static final int mult = 5;
+	public static final int grass = 'G';
+	public static final int space = 'S';
+	public static final int wall = 'W';
+	public static final int citySize = 39;
+
+	public static void makeCity() {
+		maze = new boolean[citySize][citySize];
 		nodes.push(new Coord(1, 1));
 		while (!nodes.empty()) {
 			findNewNode();
 		}
-		map= new int[65*3][65*3];
-		for(int i=0;i<map.length;i++){
-		      for(int j = 0;j<map[i].length;j++){
-				map[i][j]=maze[i/3][j/3]?space:wall;
+		map = new int[maze.length * mult][maze[0].length * mult];
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				map[i][j] = !maze[i / mult][j / mult] ? (Math.random()<.3?grass:wall): space;
+			}
+		}
+		for (int i = 0; i < 350; i++) {
+			int x = (int) (Math.random() * (citySize-2)) + 1;
+			int y = (int) (Math.random()*(citySize-2))+1;
+			if ((x%2==1||y%2==1)&&!maze[x][y]) {
+				for (int j = 0; j < mult; j++) {
+					for (int k = 0; k < mult; k++) {
+						map[mult * x + j][mult * y + k] = grass;
+					}
+				}
 			}
 		}
 	}
@@ -210,6 +245,7 @@ public static void makeMaze() {
 	public static boolean inMazeBounds(int x, int y) {
 		return x > 0 && y > 0 && x < maze.length && y < maze[x].length;
 	}
+
 	public static boolean inMapBounds(int x, int y) {
 		return x > 0 && y > 0 && x < map.length && y < map[x].length;
 	}
