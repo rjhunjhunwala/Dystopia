@@ -1,3 +1,2 @@
 # Dystopia
-Open World GTA  Clone block based top down retro game
-THis is a collborative endeavor to code a top down game
+This is an open world GTA styled game with retro isometric graphics. This is part of a collaboraion with nvillano
