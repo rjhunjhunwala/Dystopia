@@ -90,7 +90,7 @@ public class MazeGame {
 
 	public static class Player {
 
-		public static int x = 4, y = 4;
+		public static int x = mult, y = mult;
 		private static final long serialVersionUID = 1L;
 
 		public static void move(char m) {
