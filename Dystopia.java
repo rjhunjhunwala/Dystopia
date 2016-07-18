@@ -14,7 +14,7 @@ public class Dystopia {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void mai(String[] args) {
    Map.main(args);
 	 
 

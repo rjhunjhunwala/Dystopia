@@ -40,6 +40,7 @@ public class Map {
 		public static BufferedImage playerS;
 		public static BufferedImage grassS;
     public static BufferedImage carS;
+		public static BufferedImage copS;
 		static {
 			try {
 				grassS = ImageIO.read(new File("Grass.png"));
@@ -47,6 +48,7 @@ public class Map {
 				wallS = ImageIO.read(new File("Wall.png"));
 				playerS = ImageIO.read(new File("Player.png"));
 			  carS = ImageIO.read(new File("Car.png"));
+			  copS = ImageIO.read(new File("Cop.png"));
 			} catch (Exception ex) {
 			}
 		}
@@ -71,6 +73,9 @@ public class Map {
 								break;
 							case car:
 								b = carS;
+								break;
+							case cop:
+								b = copS;
 								break;
 						}
 					}
@@ -113,7 +118,7 @@ public class Map {
 					tX++;
 					break;
 			}
-			if (inMapBounds(tX, tY) && map[tX][tY] != wall&&map[tX][tY]!=car) {
+			if (inMapBounds(tX, tY) && map[tX][tY] == space||map[tX][tY]==grass) {
 				x = tX;
 				y = tY;
 			}
@@ -160,12 +165,15 @@ public class Map {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
+		Player.x=mult;
+		Player.y=mult;
 		makeCity();
 		GameFrame frame = new GameFrame();
 		    new Thread(new Game()).start();
-		while (true) {
+		while (TitleFrame.playing.get()) {
 			frame.repaint();
 		}
+		frame.setVisible(false);
 	}
 
 	public static class Coord {
@@ -184,6 +192,7 @@ public class Map {
 	public static final int space = 'S';
 	public static final int wall = 'W';
 	public static final int car = 'C';
+	public static final int cop='O';
 	public static final int citySize = 39;
 
 	public static void makeCity() {
@@ -195,7 +204,7 @@ public class Map {
 		map = new int[maze.length * mult][maze[0].length * mult];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				map[i][j] = !maze[i / mult][j / mult] ? (Math.random()<.3?grass:wall): space;
+				map[i][j] = !maze[i / mult][j / mult] ? (!(i/mult==0||i/mult==citySize-1||j/mult==0||j/mult==citySize-1)&&Math.random()<.3?grass:wall): space;
 			}
 		}
 		for (int i = 0; i < 350; i++) {
