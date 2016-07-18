@@ -6,8 +6,8 @@ Developemental Pipeline for upcoming features. A feature <s>struck through</s> i
 <li><s>Basic graphics and generation engine</s></li>
 <li><s>Cars and increased interactivity</s></li>
 <li>Exploring other cities</li>
-<li>Hostile Enemies (<s>like cops</s>), Death</li>
-<li>Title how to play and high score screen</li>
+<li>Hostile Enemies (<s>like cops), Death</s></li>
+<li><s>Title</s> how to play and high score screen</li>
 <li>Missions given by an npc</li>
 <li>Soundtrack (programmatically generated) and other UX improvements</li>
 </ol>
