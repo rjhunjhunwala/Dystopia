@@ -5,28 +5,46 @@
  */
 package dystopia;
 
+import java.util.ArrayList;
+
 /**
  * Todo code this cop
  * @author Rohans
  */
 public class Cop {
-
-public static Cop[] cops;
+public static int bounty;
+public static ArrayList<Cop> cops = new ArrayList<>();
+public static int numCops;
 public static void createCops(){
-	cops = new Cop[30];
-for(int i = 0;i<cops.length;i++){
+	cops = new ArrayList<>();
+numCops += bounty/1000;
+	for(int i = 0;i<numCops;i++){
 int aX=(int) (Math.random()*Map.map.length);	
 int aY=(int) (Math.random()*Map.map[0].length);	
 while(Map.map[aX][aY]!=Map.space){
 	aX=(int) (Math.random()*Map.map.length);	
   aY=(int) (Math.random()*Map.map[0].length);	
 }
-cops[i]= new Cop();
-cops[i].x=aX;
-cops[i].y=aY;
-cops[i].standingOn=Map.map[aX][aY];
+cops.add(new Cop());
+cops.get(i).x=aX;
+cops.get(i).y=aY;
+cops.get(i).standingOn=Map.map[aX][aY];
 Map.map[aX][aY]=Map.cop;
 }
+}
+public static void addCop(){
+	numCops++;
+	int aX=(int) (Math.random()*Map.map.length);	
+int aY=(int) (Math.random()*Map.map[0].length);	
+while(Map.map[aX][aY]!=Map.space){
+	aX=(int) (Math.random()*Map.map.length);	
+  aY=(int) (Math.random()*Map.map[0].length);	
+}
+cops.add(new Cop());
+cops.get(cops.size()-1).x=aX;
+cops.get(cops.size()-1).y=aY;
+cops.get(cops.size()-1).standingOn=Map.map[aX][aY];
+Map.map[aX][aY]=Map.cop;
 }
 public static void moveAllCops(){
 	floodFillMap(Map.Player.x,Map.Player.y);
@@ -124,20 +142,4 @@ if (Map.inMapBounds(x, y + 1) && (navigationMap[x][y + 1] == 0 || n + 1 < naviga
 	public int standingOn;
 	public int x, y;
 
-	/**
-	 * Create a cop at a random location and ensure that he is placed on an open
-	 * spot (grass or road)
-	 */
-	public Cop() {
-		int aX = (int) (Math.random() * Map.map.length);
-		int aY = (int) (Math.random() * Map.map[0].length);
-		while (!Map.maze[aX / Map.mult][aY / Map.mult]) {
-			aX = (int) (Math.random() * Map.map.length);
-			aY = (int) (Math.random() * Map.map[0].length);
-		}
-		x = aX;
-		y = aY;
-		standingOn = Map.map[x][y]==Map.cop?(Map.maze[x/Map.mult][y/Map.mult]?Map.space:Map.grass):Map.map[x][y];
-		Map.map[x][y] = Map.cop;
-	}
 }

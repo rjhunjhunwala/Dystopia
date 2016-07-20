@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  */
 public class Game implements Runnable {
 
-	public Car[] cars = new Car[Map.citySize * Map.citySize / 10];
+	public static Car[] cars = new Car[Map.citySize * Map.citySize / 10];
 
-	{
+	public static void makeCars(){
 		for (int i = 0; i < cars.length; i++) {
 			cars[i] = new Car();
 		}
@@ -24,24 +24,17 @@ public class Game implements Runnable {
 
 	@Override
 	public void run() {
-    new Thread(new Runnable(){
-			public void run(){
-				try {
-					Thread.sleep(2500);
-				} catch (InterruptedException ex) {
-					Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-				}
-				for(int i = 0;i<Map.map.length;i++){
-					for(int j = 0;j<Map.map[i].length;j++){
-						if(Map.map[i][j]==Map.cop){
-							Map.map[i][j]=Map.space;
-						}
-					}
-				}
-			}
-		}).start();
+		makeCars();
+		Cop.bounty= 0;
+		Cop.numCops=10;
+		int i = 0;
 			Cop.createCops();
 		while (TitleFrame.playing.get()) {
+			if(i%50==0){
+				for(int j = 0; j<10;j++)
+				Cop.addCop();
+			}
+			Cop.bounty+=100;
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException ex) {
@@ -51,6 +44,7 @@ public class Game implements Runnable {
 				c.move();
 			}
 			Cop.moveAllCops();
+		i++;
 		}
 	}
 }

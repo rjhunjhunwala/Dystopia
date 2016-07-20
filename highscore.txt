@@ -1,0 +1,10 @@
+Rohan,40800
+Alice,40000
+Carol,38000
+Jones,30000
+Jones,29000
+John Smith,28000
+Jacob,27000
+Bob,26000
+Emily,25000
+Jane,24000

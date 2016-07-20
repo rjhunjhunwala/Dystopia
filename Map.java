@@ -41,6 +41,7 @@ public class Map {
 		public static BufferedImage grassS;
     public static BufferedImage carS;
 		public static BufferedImage copS;
+		public static BufferedImage awayS;
 		static {
 			try {
 				grassS = ImageIO.read(new File("Grass.png"));
@@ -49,14 +50,19 @@ public class Map {
 				playerS = ImageIO.read(new File("Player.png"));
 			  carS = ImageIO.read(new File("Car.png"));
 			  copS = ImageIO.read(new File("Cop.png"));
+			awayS = ImageIO.read(new File("getAway.png"));
 			} catch (Exception ex) {
 			}
 		}
 
 		@Override
 		public void paintComponent(Graphics g) {
+
+			
 			g.setColor(Color.green);
 			g.fillRect(0, 0, 650, 650);
+			g.setColor(Color.red);
+			g.drawString("Bounty: "+Cop.bounty+"$",500,30);
 			for (int y = Player.y - 10; y <= Player.y + 10; y++) {
 				for (int x = Player.x + 10; x >= Player.x - 10; x--) {
 					BufferedImage b = grassS;
@@ -77,6 +83,15 @@ public class Map {
 							case cop:
 								b = copS;
 								break;
+							case getAway:
+								b = awayS;
+								break;
+							default:
+								System.err.println("Malformed map");
+class MalformedMapException extends RuntimeException{
+	
+}
+throw new MalformedMapException();
 						}
 					}
 
@@ -117,6 +132,12 @@ public class Map {
 				case 'd':
 					tX++;
 					break;
+			}
+			if(map[tX][tY]==getAway){
+				makeCity();
+			Game.makeCars();
+			Cop.createCops();
+			Cop.bounty+=25000;
 			}
 			if (inMapBounds(tX, tY) && map[tX][tY] == space||map[tX][tY]==grass) {
 				x = tX;
@@ -165,8 +186,7 @@ public class Map {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		Player.x=mult;
-		Player.y=mult;
+
 		makeCity();
 		GameFrame frame = new GameFrame();
 		    new Thread(new Game()).start();
@@ -174,6 +194,7 @@ public class Map {
 			frame.repaint();
 		}
 		frame.setVisible(false);
+	HighScore.manageScore(Cop.bounty);
 	}
 
 	public static class Coord {
@@ -193,9 +214,12 @@ public class Map {
 	public static final int wall = 'W';
 	public static final int car = 'C';
 	public static final int cop='O';
+	public static final int getAway='A';
 	public static final int citySize = 39;
 
 	public static void makeCity() {
+		Player.x=mult;
+		Player.y=mult;
 		maze = new boolean[citySize][citySize];
 		nodes.push(new Coord(1, 1));
 		while (!nodes.empty()) {
@@ -217,6 +241,10 @@ public class Map {
 					}
 				}
 			}
+		}
+for(int j = 0;j<=mult/2;j++)
+		for(int i = 0;i<=mult; i++){
+					map[map.length-mult-1+i][map[0].length-mult-1-j]=getAway;
 		}
 	}
 

@@ -29,7 +29,9 @@ public class TitleController implements KeyListener {
 			switch (e.getKeyChar()) {
 				case 'R':
 				case 'r':
-					TitleFrame.TitlePanel.screen.set(Screens.title);
+					if (TitleFrame.TitlePanel.screen.get() == Screens.highscore) {
+						TitleFrame.TitlePanel.screen.set(Screens.title);
+					}
 					break;
 				case 'i':
 				case 'I':
@@ -40,7 +42,7 @@ public class TitleController implements KeyListener {
 
 				case 'p':
 				case 'P':
-					if (TitleFrame.TitlePanel.screen.get() == Screens.title) {
+					if (TitleFrame.TitlePanel.screen.get() == Screens.title || TitleFrame.TitlePanel.screen.get() == Screens.help) {
 						TitleFrame.playing.set(true);
 					}
 					break;

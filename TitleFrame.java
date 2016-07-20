@@ -83,14 +83,14 @@ public class TitleFrame extends JFrame {
 		 * These dots are to be used to separate the names from the scores in the high
 		 * score table.
 		 */
-		private static final String dots = "........................................."
-										+ "...............................";
+		private static final String dots = "............................."
+										+ "..........";
 
 		public static final Font big = new Font("Monospaced", 24, 24);
 
 		static {
 			try {
-				highScoreBackground = ImageIO.read(new File("Title.png"));
+				highScoreBackground = ImageIO.read(new File("HighScore.png"));
 			} catch (IOException ex) {
 				Logger.getLogger(TitleFrame.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -136,21 +136,25 @@ public class TitleFrame extends JFrame {
 					break;
 				case help:
 					g.drawImage(helpScreenImage, 0, 0, null);
+					g.setColor(Color.red);
+					g.setFont(new Font("Times New Roman Bold",12,12));
+					g.drawString("Use WASD to get to the back alley in the bottom corner and make it to the next city.", 0, 640 - 12);				
 					break;
 				case highscore:
 					g.drawImage(highScoreBackground, 0, 0, null);
-					g.setColor(Color.cyan);
+					final Color c= new Color(255,10,10);
+					g.setColor(c);
 					g.setFont(big);
-					g.drawString("Most wanted", 768 / 2 - 70, 50);
-					
-//					for (HighScore s : HighScore.scores) {
-//						g.drawString(s.name + dots.substring(s.name.length()), 115, 100 + i);
-//						g.drawString(s.score + "", 620, 100 + i);
-//						i += 50;
-//
-//					}
+					g.drawString("Most Wanted", 250, 50);
+					int i= 0;
+					for (HighScore s : HighScore.scores) {
+						g.drawString(s.name + dots.substring(s.name.length()), 0, 100 + i);
+						g.drawString(s.score + "", 550, 100 + i);
+						i += 50;
+
+					}
 				
-					g.drawString("Press \"R\" to return to the home screen", 0, 768 - 12);
+					g.drawString("Press \"R\" to return to the home screen", 0, 640 - 12);
 			}
 		}
 	}
