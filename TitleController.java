@@ -43,12 +43,13 @@ public class TitleController implements KeyListener {
 				case 'p':
 				case 'P':
 					if (TitleFrame.TitlePanel.screen.get() == Screens.title || TitleFrame.TitlePanel.screen.get() == Screens.help) {
+					TitleFrame.TitlePanel.screen.set(Screens.title);
 						TitleFrame.playing.set(true);
 					}
 					break;
 				case 'h':
 				case 'H':
-					if (TitleFrame.TitlePanel.screen.get() == Screens.title) {
+					if (TitleFrame.TitlePanel.screen.get() == Screens.title||TitleFrame.TitlePanel.screen.get() == Screens.help) {
 						TitleFrame.TitlePanel.screen.set(Screens.highscore);
 					}
 
